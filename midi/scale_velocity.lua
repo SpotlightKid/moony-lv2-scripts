@@ -2,7 +2,7 @@
 
 -- 0..15 or set to -1 to apply to events on all channels
 local filter_chan = -1
--- whether to pass non-not evebts
+-- whether to pass non-note events
 local pass_other = true
 -- lowest note of affected note range
 local note_low = 0
@@ -10,7 +10,7 @@ local note_low = 0
 local note_high = 127
 
 -- scale incoming velocity values by this factor
--- (affects note on and note off events)
+-- (affects note-on and note-off events)
 local vel_scale = 0.9
 -- offset value to add to velocity after scaling
 local vel_offset = 0
@@ -46,7 +46,7 @@ local function note_responder(cmd)
   end
 end
 
--- define a MIDIResponder object configured to pass-through unmatched messages
+-- define a MIDIResponder object to handle note-on and note-off events
 local midiR = MIDIResponder({
   [MIDI.NoteOn] = note_responder(MIDI.NoteOn),
   [MIDI.NoteOff] = note_responder(MIDI.NoteOff)
