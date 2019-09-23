@@ -2,7 +2,7 @@
 
 -- 0..15 or set to -1 to apply to events on all channels
 local filter_chan = -1
--- whether to pass non-poylAT events
+-- whether to pass non-polyAT events
 local pass_other = true
 -- lowest note of affected note range
 local note_low = 0
