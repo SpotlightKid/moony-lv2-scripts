@@ -2,16 +2,16 @@
 
 -- 0..15 or set to -1 to apply to events on all channels
 local filter_chan = -1
--- whether to pass non-polyAT events
-local pass_other = true
--- lowest note of affected note range
+-- which control change number to convert to?
 local dest_cc = 1
+-- whether to pass non-monyAT events
+local pass_other = true
 
 
 -- NO NEED TO CHANGE ANYTHING BELOW
 
 function channelpressure2cc(self, frames, forge, chan, value)
-  if (filter_chan == -1 or chan == filter_chan) then
+  if filter_chan == -1 or chan == filter_chan then
     forge:time(frames):midi(MIDI.Controller | chan, dest_cc, value)
   end
 end
