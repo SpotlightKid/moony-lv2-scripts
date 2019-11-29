@@ -16,7 +16,7 @@ function channelpressure2cc(self, frames, forge, chan, value)
   end
 end
 
--- define a MIDIResponder object to handle note-on and note-off events
+-- define a MIDIResponder object to handle channel pressure events
 local midiR = MIDIResponder({
   [MIDI.ChannelPressure] = channelpressure2cc,
 }, pass_other)

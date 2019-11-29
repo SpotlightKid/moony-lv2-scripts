@@ -20,7 +20,7 @@ function cc2channelpressure(self, frames, forge, chan, cc, value)
   end
 end
 
--- define a MIDIResponder object to handle note-on and note-off events
+-- define a MIDIResponder object to handle control change events
 local midiR = MIDIResponder({
   [MIDI.Controller] = cc2channelpressure,
 }, pass_other)
