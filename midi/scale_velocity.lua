@@ -58,7 +58,7 @@ end
 local function note_responder(cmd)
   return function(self, frames, forge, chan, note, vel)
     local vel_new
-    if (filter_chan == -1 or chan == filter_chan) and filter_notes[note] != nil then
+    if (filter_chan == -1 or chan == filter_chan) and filter_notes[note] ~= nil then
         vel_new = scale_velocity(vel)
     else
         vel_new = vel
