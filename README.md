@@ -5,6 +5,20 @@ A collection of Lua scripts for the [Moony] LV2 plugin
 
 ## MIDI Filters
 
+* [CC to Channel Pressure](midi/cc2channelpressure.lua)
+
+    Converts specific Control Change events to MIDI Channel Pressure
+    (aka Mono Aftertouch).
+
+* [Channel Pressure to CC](midi/channelpressure2cc.lua)
+
+    Converts MIDI Channel Pressure (aka Mono Aftertouch) to Control Change
+    events.
+
+* [Poly Pressure to Note On](midi/polyat2noteon.lua)
+
+    Converts MIDI Poly Pressure (aka Poly Aftertouch) to Note On events.
+
 * [Scale Velocity](midi/scale_velocity.lua)
 
     Scales velocity of note-on and note-off events by a given factor
