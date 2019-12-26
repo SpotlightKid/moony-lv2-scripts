@@ -4,10 +4,10 @@
 local filter_chan = -1
 -- whether to pass non-note events
 local pass_other = true
--- lowest note of affected note range
-local note_low = 0
--- highest note of affected note range
-local note_high = 127
+-- affected note range(s)
+-- string with comma-separated list of single MIDI note numbers or ranges
+-- example: local note_ranges = "0-12, 36,48, 60 - 96"
+local note_ranges = "0-127"
 
 -- scale incoming velocity values by this factor
 -- (affects note-on and note-off events)
@@ -20,6 +20,33 @@ local vel_max = 127
 
 -- NO NEED TO CHANGE ANYTHING BELOW
 
+-- http://rosettacode.org/wiki/Range_expansion#Lua
+function range(i, j)
+    local t = {}
+    for n = i, j, i<j and 1 or -1 do
+        t[#t+1] = n
+    end
+    return t
+end
+
+function expand_ranges(rspec)
+    local ptn = "([-+]?%d+)%s?-%s?([-+]?%d+)"
+    local t = {}
+
+    for v in string.gmatch(rspec, '[^,]+') do
+        local s, e = v:match(ptn)
+
+        if s == nil then
+            t[tonumber(v)] = true
+        else
+            for _, n in ipairs(range(tonumber(s), tonumber(e))) do
+                t[n] = true
+            end
+        end
+    end
+    return t
+end
+
 local function scale_velocity(val)
   -- round to lower integer
   val = math.floor(val * vel_scale) + vel_offset
@@ -31,7 +58,7 @@ end
 local function note_responder(cmd)
   return function(self, frames, forge, chan, note, vel)
     local vel_new
-    if (filter_chan == -1 or chan == filter_chan) and (note >= note_low and note <= note_high) then
+    if (filter_chan == -1 or chan == filter_chan) and filter_notes[note] != nil then
         vel_new = scale_velocity(vel)
     else
         vel_new = vel
@@ -46,11 +73,15 @@ local function note_responder(cmd)
   end
 end
 
--- define a MIDIResponder object to handle note-on and note-off events
-local midiR = MIDIResponder({
-  [MIDI.NoteOn] = note_responder(MIDI.NoteOn),
-  [MIDI.NoteOff] = note_responder(MIDI.NoteOff)
-}, pass_other)
+function once(n, control, notify, seq, forge)
+    filter_notes = expand_ranges(note_ranges)
+
+    -- define a MIDIResponder object to handle note-on and note-off events
+    midiR = MIDIResponder({
+      [MIDI.NoteOn] = note_responder(MIDI.NoteOn),
+      [MIDI.NoteOff] = note_responder(MIDI.NoteOff)
+    }, pass_other)
+end
 
 function run(n, control, notify, seq, forge)
   -- iterate over incoming events
