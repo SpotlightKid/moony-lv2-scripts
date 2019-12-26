@@ -5,7 +5,8 @@ local filter_chan = -1
 -- whether to pass non-note events
 local pass_other = true
 -- affected note range(s)
--- string with comma-separated list of single MIDI note numbers or ranges
+-- string with comma-separated list of single MIDI note numbers or
+-- ranges (min-max separated by a dash, whitespace is ignored)
 -- example: local note_ranges = "0-12, 36,48, 60 - 96"
 local note_ranges = "0-127"
 
