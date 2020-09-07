@@ -4,7 +4,7 @@
 local filter_chan = -1
 -- which control change number to convert to?
 local dest_cc = 1
--- whether to pass non-monyAT events
+-- whether to pass non-mono AT events
 local pass_other = true
 
 
