@@ -45,10 +45,10 @@ local dest_cc = Parameter {
   [LV2.maximum] = 127,
   [RDF.value] = 1
 }
--- whether to pass unmatched mono AT events
+-- whether to pass unmatched mono AT or other events
 local pass_unmatched = Parameter {
   [RDFS.label] = 'Pass umatched?',
-  [RDFS.comment] = 'Should unvonverted events be passed through?',
+  [RDFS.comment] = 'Should events not matched by filter be passed through?',
   [RDFS.range] = Atom.Bool,
   _value = true,
   [Patch.Get] = function (self)
