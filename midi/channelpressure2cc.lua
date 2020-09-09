@@ -5,7 +5,6 @@ print("Loading channelpressure2cc filter version " .. version .. " ...")
 
 -- define URI prefix for state parameters
 local urn = Mapper('urn:uuid:a21213a2-f14e-11ea-ad18-3c970e9a9ec9#')
-local midiR
 
 -- define parameters
 -- 0..15 or set to -1 to apply to events on all channels
@@ -50,14 +49,7 @@ local pass_unmatched = Parameter {
   [RDFS.label] = 'Pass umatched?',
   [RDFS.comment] = 'Should events not matched by filter be passed through?',
   [RDFS.range] = Atom.Bool,
-  _value = true,
-  [Patch.Get] = function (self)
-    return self._value
-  end,
-  [Patch.Set] = function (self, value)
-    self._value = value
-    midiR.through = value
-  end
+  [RDF.value] = true
 }
 
 
@@ -97,9 +89,9 @@ end
 
 
 -- define a MIDIResponder object to handle channel pressure events
-midiR = MIDIResponder({
+local midiR = MIDIResponder({
   [MIDI.ChannelPressure] = channelpressure2cc,
-}, pass_unmatched())
+}, false)
 
 
 -- the main processing function
@@ -111,6 +103,10 @@ function run(n, control, notify, seq, forge)
   -- iterate over incoming sequence events
   for frames, atom in seq:foreach() do
     midiR(frames, forge, atom)
+
+    if pass_unmatched() and atom[1] ~= MIDI.ChannelPressure then
+      forge:time(frames):atom(atom)
+    end
   end
 end
 
