@@ -17,6 +17,8 @@ local pass_other = true
 
 -- NO NEED TO CHANGE ANYTHING BELOW
 
+local _filter_notes
+
 local function clamp(val, min, max)
   return val < min and min or (val > max and max or val)
 end
@@ -38,10 +40,10 @@ function expand_ranges(rspec)
         local s, e = v:match(ptn)
 
         if s == nil then
-            t[#t+1] = tonumber(v)
+            t[tonumber(v)] = true
         else
             for i, n in ipairs(range(tonumber(s), tonumber(e))) do
-                t[#t+1] = n
+                t[] = true
             end
         end
     end
@@ -57,7 +59,7 @@ end
 local function note_responder(cmd)
   return function(self, frames, forge, chan, note, vel)
     local pass = pass_other
-    if (filter_chan == -1 or chan == filter_chan) and _filter_notes[note] ~= nil then
+    if (filter_chan == -1 or chan == filter_chan) and _filter_notes[note] then
       pass, chan, note, vel = do_filter(frames, forge, chan, note, vel)
     end
     if (pass)
