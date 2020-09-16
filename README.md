@@ -15,6 +15,11 @@ A collection of Lua scripts for the [Moony] LV2 plugin
     Converts MIDI Channel Pressure (aka Mono Aftertouch) to Control Change
     events.
 
+* [Note to CC](midi/note2cc.lua)
+
+    Converts Note On / Note Off events into Control Change events providing
+    many options.
+
 * [Poly Pressure to Note On](midi/polyat2noteon.lua)
 
     Converts MIDI Poly Pressure (aka Poly Aftertouch) to Note On events.
