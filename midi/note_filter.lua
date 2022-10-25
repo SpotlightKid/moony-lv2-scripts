@@ -43,7 +43,7 @@ function expand_ranges(rspec)
             t[tonumber(v)] = true
         else
             for i, n in ipairs(range(tonumber(s), tonumber(e))) do
-                t[] = true
+                t[n] = true
             end
         end
     end
