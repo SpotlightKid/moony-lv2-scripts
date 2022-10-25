@@ -62,7 +62,7 @@ local function note_responder(cmd)
     if (filter_chan == -1 or chan == filter_chan) and _filter_notes[note] then
       pass, chan, note, vel = do_filter(frames, forge, chan, note, vel)
     end
-    if (pass)
+    if (pass) then
       -- send event
       forge:time(frames):midi(cmd | chan, note, vel)
     end
